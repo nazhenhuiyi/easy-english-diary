@@ -1,4 +1,6 @@
+import { authOptions } from "@/server/auth";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+import { getServerSession } from "next-auth";
 
 // Create an OpenAI API client (that's edge friendly!)
 
@@ -6,6 +8,13 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    Response.json({
+      success: false,
+      error: "unauthorized",
+    });
+  }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { prompt } = await req.json();
   const response = await fetch("https://api.goapi.xyz/v1/chat/completions", {

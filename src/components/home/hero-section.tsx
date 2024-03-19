@@ -1,5 +1,4 @@
 import { Header } from "@/components/home/header";
-import { AnimateSlogan } from "@/components/home/animate-slogan";
 import { CtaButton } from "@/components/home/cta-button";
 
 export function HeroSection() {
