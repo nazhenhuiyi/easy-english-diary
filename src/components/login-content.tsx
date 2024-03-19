@@ -6,7 +6,7 @@ import Image from "next/image";
 export function LoginContent() {
   const handleSignIn = () => {
     // setLoading(true)
-    signIn("google", { callbackUrl: `${window.location.origin}/home` });
+    void signIn("google", { callbackUrl: `${window.location.origin}/home` });
   };
 
   return (
