@@ -32,6 +32,7 @@ export const generateAudio = async (
   return new Promise((resolve, reject) => {
     synthesizer.speakTextAsync(
       text,
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async function (result) {
         if (result.reason === ResultReason.SynthesizingAudioCompleted) {
           console.log("synthesis finished.", result);

@@ -7,8 +7,10 @@ import { useCallback } from "react";
 import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const handleCreateDiary = useCallback(
     async (prompt: string, completion: string) => {
       await fetch("/api/create-diary", {
@@ -16,9 +18,10 @@ const Page = () => {
         credentials: "include",
         body: JSON.stringify({ diary: completion, originText: prompt }),
       });
+      router.replace("/home");
       // redirect to diary page
     },
-    [],
+    [router],
   );
   const { completion, input, isLoading, handleInputChange, handleSubmit } =
     useCompletion({
@@ -27,7 +30,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="grid w-full gap-2 px-2 sm:px-20">
+      <div className="mt-2 grid w-full gap-2 px-2 sm:px-20">
         <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
           {dayjs().format("MMM DD, YYYY")}
         </h2>

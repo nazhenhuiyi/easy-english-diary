@@ -5,7 +5,7 @@ export const Logo = () => {
   return (
     <Link href="/" aria-label="Home" className="flex items-center gap-2">
       <Image
-        src="/logo.webp"
+        src="/logo.png"
         alt="logo"
         width={40}
         height={40}
