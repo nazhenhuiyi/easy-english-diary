@@ -43,9 +43,8 @@ export const DiaryCard = ({ diary }: { diary: Post }) => {
   const speakText = () => {
     speechSynthesis.cancel();
 
-    const newUtterance = new SpeechSynthesisUtterance(
-      diary.optimizedText as string,
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const newUtterance = new SpeechSynthesisUtterance(diary.optimizedText);
     newUtterance.lang = "en-US";
     newUtterance.rate = 0.8;
     newUtterance.onstart = () => setIsSpeaking(true);
