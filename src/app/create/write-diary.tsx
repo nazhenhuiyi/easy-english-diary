@@ -31,11 +31,11 @@ export const WriteDiary = () => {
     <>
       <Header />
       <div className="mt-2 grid w-full gap-2 px-2 sm:px-20">
-        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 sm:text-3xl">
           {dayjs().format("MMM DD, YYYY")}
         </h2>
 
-        <div className="mt-4 flex flex-col gap-4 sm:flex-row">
+        <div className="mt-2 flex flex-col gap-4 sm:mt-4 sm:flex-row">
           <form
             onSubmit={handleSubmit}
             className="flex flex-[1_1_50%] flex-col gap-2"
@@ -45,8 +45,7 @@ export const WriteDiary = () => {
               disabled={isLoading}
               onChange={handleInputChange}
               placeholder="Type your diary here."
-              className="text-md"
-              rows={15}
+              className="text-md h-[240px] sm:h-[380px]"
             />
             <Button
               type="submit"
