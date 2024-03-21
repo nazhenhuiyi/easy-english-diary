@@ -1,5 +1,6 @@
 import { DiaryCard } from "@/components/diary-card";
 import { Header } from "@/components/header";
+import { StatsCard } from "@/components/stats-card";
 import { authOptions } from "@/server/auth";
 import { db } from "@/server/db";
 import { getServerSession } from "next-auth/next";
@@ -24,6 +25,8 @@ const Page = async () => {
     <>
       <Header />
       <div className="mt-4 flex flex-col items-center gap-4 px-2 sm:px-4">
+        <StatsCard />
+
         {diaryRes.map((v) => (
           <DiaryCard diary={v} key={v.id} />
         ))}

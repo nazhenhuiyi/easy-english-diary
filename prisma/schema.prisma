@@ -24,8 +24,19 @@ model Post {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
     audioUrl    String
+    wordCount   Int    @default(0)
 
     @@index([optimizedText])
+}
+
+model UserDiaryStats {
+    id             String @id
+    totalEntries   Int    @default(0)
+    totalWordCount Int    @default(0)
+
+    consecutiveDays Int      @default(1)
+    lastEntryDate   DateTime
+    user            User     @relation(fields: [id], references: [id])
 }
 
 // Necessary for Next auth
@@ -56,14 +67,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id             String           @id @default(cuid())
+    name           String?
+    email          String?          @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    posts          Post[]
+    UserDiaryStats UserDiaryStats[]
 }
 
 model VerificationToken {

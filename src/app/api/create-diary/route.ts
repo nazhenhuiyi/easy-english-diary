@@ -2,6 +2,7 @@ import { db } from "@/server/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { NextRequest } from "next/server";
+import dayjs from "dayjs";
 // import { generateAudio } from "./generateAudio";
 
 export async function POST(req: NextRequest) {
@@ -22,6 +23,46 @@ export async function POST(req: NextRequest) {
       createdById: session?.user.id as unknown as string,
     },
   });
+  const wordCount = (diary as string)
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+  try {
+    const oldUserStats = await db.userDiaryStats.findFirst({
+      where: {
+        id: session?.user.id as unknown as string,
+      },
+    });
+    const userStats = await db.userDiaryStats.upsert({
+      where: {
+        id: session?.user.id as unknown as string,
+      },
+      create: {
+        id: session?.user.id as unknown as string,
+        totalEntries: 1,
+        lastEntryDate: new Date(),
+        totalWordCount: wordCount,
+        consecutiveDays: 1,
+      },
+      update: {
+        totalEntries: {
+          increment: 1,
+        },
+        totalWordCount: {
+          increment: wordCount,
+        },
+        consecutiveDays: {
+          increment:
+            dayjs(oldUserStats?.lastEntryDate).diff(new Date(), "day") === 0
+              ? 0
+              : 1,
+        },
+        lastEntryDate: new Date(),
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   // generateAudio(diaryRes.id, diary, "en-US");
   return Response.json({
