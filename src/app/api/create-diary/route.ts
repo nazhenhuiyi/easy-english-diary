@@ -52,9 +52,9 @@ export async function POST(req: NextRequest) {
         },
         consecutiveDays: {
           increment:
-            dayjs(oldUserStats?.lastEntryDate).diff(new Date(), "day") === 0
-              ? 0
-              : 1,
+            dayjs(new Date()).diff(oldUserStats?.lastEntryDate, "day") >= 1
+              ? 1
+              : 0,
         },
         lastEntryDate: new Date(),
       },
